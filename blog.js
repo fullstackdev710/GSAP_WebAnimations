@@ -168,3 +168,28 @@ $(document).on("mousemove", function (e) {
   mouseX = e.clientX;
   mouseY = e.clientY;
 });
+
+$(function () {
+  let controller = new ScrollMagic.Controller();
+
+  let paths = $("path");
+  let tl = new TimelineMax();
+  paths.each(function (i, e) {
+    e.style.strokeDasharray = e.style.strokeDashoffset = e.getTotalLength();
+  });
+  tl.staggerTo(
+    paths,
+    0.4,
+    {
+      strokeDashoffset: 0,
+      stroke: "#fff",
+      strokeWidth: 4,
+    },
+    0.2
+  );
+  //   let containerScene = new ScrollMagic.Scene({
+  //     triggerElement: "#cta",
+  //   })
+  //     .setTween(tl)
+  //     .addTo(controller);
+});
