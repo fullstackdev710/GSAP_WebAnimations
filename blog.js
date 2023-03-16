@@ -48,5 +48,33 @@ const setSquares = () => {
   });
 };
 
+const groupSquaresAtCursor = () => {
+  gsap.killTweensOf(squares);
+  squares.forEach((square) => {
+    console.log("ACTIVE", gsap.isTweening(square));
+  });
+
+  gsap.getTweensOf(squares).forEach((t) => kill());
+
+  const tl = gsap.timeline();
+  tl.to(squares, {
+    duration: 0.3,
+    borderRadius: "50%",
+  });
+  tl.to(squares, {
+    duration: 0.2,
+    scale: 2,
+  });
+
+  window.addEventListener("mousemove", squaresFollowCursor);
+
+  squaresFollowCursor();
+};
+
 onResize();
 setSquares();
+
+window.addEventListener("resize", onResize);
+links.forEach((link) =>
+  link.addEventListener("mouseenter", groupSquaresAtCursor)
+);
