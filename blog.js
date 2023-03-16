@@ -71,6 +71,31 @@ const groupSquaresAtCursor = () => {
   squaresFollowCursor();
 };
 
+const squaresFollowCursor = () => {
+  gsap.to(squares, {
+    duration: 0.3,
+    x: coords.mouseX,
+    y: coords.mouseY,
+  });
+};
+
+const disperseSquares = () => {
+  window.removeEventListener("mousemove", squaresFollowCursor);
+  squares.forEach((square) => {
+    gsap.to(square, {
+      duration: 2,
+      scale: 1,
+      overwrite: true,
+      x: coords.mouseX,
+      y: coords.mouseY,
+
+      onComplete() {
+        tweenProperty(square, "y");
+      },
+    });
+  });
+};
+
 onResize();
 setSquares();
 
@@ -78,3 +103,6 @@ window.addEventListener("resize", onResize);
 links.forEach((link) =>
   link.addEventListener("mouseenter", groupSquaresAtCursor)
 );
+
+window.addEventListener("mousemove", updateMousePosition);
+links.forEach((link) => link.addEventListener("mouseout", disperseSquares));
