@@ -132,3 +132,39 @@ tl.fromTo(
 tl.fromTo(logo, 0.5, { opacity: 0, x: 30 }, { opacity: 1, x: 0 }, "-=0.5");
 tl.fromTo(ham, 0.5, { opacity: 0, x: 30 }, { opacity: 1, x: 0 }, "-=0.5");
 tl.fromTo(headline, 0.5, { opacity: 0, x: 30 }, { opacity: 1, x: 0 }, "-=0.5");
+
+let cursor = $(".cursor");
+follower = $(".cursor-follower");
+
+let posX = 0,
+  posY = 0;
+
+let mouseX = 0,
+  mouseY = 0;
+
+TweenMax.to({}, 0.016, {
+  repeat: -1,
+  onRepeat: function () {
+    posX += (mouseX - posX) / 9;
+    posY += (mouseY - posY) / 9;
+
+    TweenMax.set(follower, {
+      css: {
+        left: posX - 12,
+        top: posY - 12,
+      },
+    });
+
+    TweenMax.set(cursor, {
+      css: {
+        left: mouseX,
+        top: mouseY,
+      },
+    });
+  },
+});
+
+$(document).on("mousemove", function (e) {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
